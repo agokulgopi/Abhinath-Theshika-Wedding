@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP | Abhinath & Theshika</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .rsvp-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: var(--emerald-dark);
+            margin-bottom: 0.5rem;
+            font-size: 3rem;
+        }
+
+        .form-container p.subtitle {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--navy);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 75, 35, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--emerald);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(0, 100, 0, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: 400 !important;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .form-submit-btn {
+            background-color: var(--emerald-dark);
+            color: white;
+            border: 2px solid var(--emerald-dark);
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-submit-btn:hover {
+            background-color: transparent;
+            color: var(--emerald-dark);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--emerald);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+
+        /* Success Message styling */
+        #success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 8px;
+            color: #155724;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="header-bg"></div>
+        <div class="overlay"></div>
+    </div>
+
+    <main class="content-wrapper rsvp-page fade-in">
+        <div class="form-container glass-panel">
+            <h1>RSVP</h1>
+            <p class="subtitle">Please let us know if you can make it by November 1st.</p>
+
+            <!-- 
+            =============================================================================
+            HOW TO CONNECT THIS HTML FORM TO GOOGLE SHEETS / FORMS
+            =============================================================================
+            
+            METHOD 1: Submit directly to a Google Form (Easiest)
+            1. Create a Google Form with the same questions (Name, Email, Attending, etc.)
+            2. Open the form preview, right click and select "Inspect"
+            3. Find the <form> tag and copy its 'action' url. Paste it in the 'action' attribute below.
+            4. For each <input> below, find the corresponding Google Form input name attribute (it looks like name="entry.12345678")
+            5. Replace my placeholder 'name' attributes below with those entry codes.
+            
+            METHOD 2: Google Apps Script (Cleaner, invisible redirect)
+            1. Open a new Google Sheet.
+            2. Go to Extensions > Apps Script.
+            3. Paste a standard "HTML Form to Google Sheet" script (like the one by levinunnink on GitHub).
+            4. Deploy as a Web App (Execute as: You, Who has access: Anyone).
+            5. Copy the Web App URL and paste it into the form 'action' attribute below.
+            =============================================================================
+            -->
+
+            <!-- Replace ACTION_URL_HERE with your Google Form action url or Apps Script Web App URL -->
+            <form id="rsvp-form" action="ACTION_URL_HERE" method="POST" target="_blank">
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <!-- Update name="entry.XXXXXX" to match your Google Form -->
+                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="john@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="attending">Will you be attending?</label>
+                    <select id="attending" name="attending" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="Joyfully Accepts">Joyfully Accepts</option>
+                        <option value="Regretfully Declines">Regretfully Declines</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="guestCount">Total number of guests (including you)</label>
+                    <select id="guestCount" name="guestCount" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5+">5+</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Which events will you attend?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="eventsSangeet" value="Sangeet"> Sangeet (Saturday, 5 Dec)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="eventsWedding" value="Wedding"> Wedding (Sunday, 6 Dec)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dietary">Dietary Restrictions or Special Requirements (Optional)</label>
+                    <textarea id="dietary" name="dietary" rows="3" placeholder="e.g. Vegetarian, Nut Allergy..."></textarea>
+                </div>
+
+                <button type="submit" class="btn form-submit-btn">Send RSVP</button>
+            </form>
+
+            <div id="success-message">
+                <h3>Thank you!</h3>
+                <p>Your RSVP has been confirmed.</p>
+            </div>
+
+            <a href="index.html" class="back-link">← Go back to invitation</a>
+        </div>
+    </main>
+
+    <script>
+        // Optional script to handle form submission via AJAX instead of redirecting
+        // This makes the transition smoother if you're using Google Apps Script
+        const form = document.getElementById('rsvp-form');
+        const successMsg = document.getElementById('success-message');
+
+        form.addEventListener('submit', (e) => {
+            // If you actually connect it to Google Forms/Apps script via AJAX, 
+            // you can uncomment e.preventDefault() to stop page reload and show the success message instead.
+            
+            // e.preventDefault();
+            
+            // Fetch API call would go here
+            // fetch(form.action, { method: 'POST', body: new FormData(form) }).then(...)
+            
+            // Temporary fake success interaction for demonstration
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMsg.style.display = 'block';
+            }, 500);
+        });
+
+        // Trigger fade in
+        setTimeout(() => {
+            document.querySelector('.rsvp-page').classList.add('visible');
+        }, 100);
+    </script>
+</body>
+</html>

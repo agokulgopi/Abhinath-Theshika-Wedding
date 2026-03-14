@@ -1,0 +1,836 @@
+:root {
+    --gold: #D4AF37;
+    --gold-light: #F3E5AB;
+    --emerald-dark: #004B23;
+    --emerald: #006400;
+    --navy: #0A1128;
+    --text-dark: #1A1A1A;
+    --text-light: #F8F9FA;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-color: var(--navy);
+    /* Fallback */
+}
+
+h1,
+h2,
+h3,
+.eyebrow,
+.ampersand {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Global Website Background */
+.background-container {
+    position: fixed; /* Fix to viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Behind everything */
+    overflow: hidden;
+}
+
+.header-bg {
+    position: absolute; /* Relative to the fixed container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('Images/Website_BG.png'); /* New Global Background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Adjusted filter to complement the sand overlay */
+    filter: saturate(1.2) brightness(0.95);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Rich soft sand linear gradient overlay */
+    background: linear-gradient(to bottom, rgba(235, 222, 196, 0.45) 0%, rgba(212, 185, 140, 0.55) 100%);
+    z-index: 1;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 3rem;
+}
+
+/* Layout */
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.section-padding {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section — CSS Grid stacking: image + text layers */
+.hero {
+    display: grid;
+    position: relative;
+    background-color: #d8c3a5;
+    overflow: hidden;
+}
+
+/* Desktop: actual img element defines the section height naturally showing full image */
+.hero-bg-img {
+    grid-area: 1/1;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Content centered in same grid cell as the image */
+.hero-content {
+    grid-area: 1/1;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    width: 90%;
+    max-width: 680px;
+    animation: fadeUp 1.2s ease-out forwards;
+    z-index: 2;
+    padding: 10px;
+    margin-bottom: 10%; /* Shift up slightly from center to match reference card layout */
+}
+
+/* Scroll indicator pinned to bottom of same grid cell */
+.scroll-indicator {
+    grid-area: 1/1;
+    align-self: end;
+    justify-self: center;
+    padding-bottom: 28px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 2s 1s ease-out forwards;
+    opacity: 0;
+    white-space: nowrap;
+}
+
+/* ---- MOBILE: switch to background-image so it fills the phone screen properly ---- */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 100svh;
+        position: relative; /* needed for absolute-positioned scroll indicator */
+        background-image: url('Images/Hero_section_BG-edited.png');
+        background-size: cover;
+        /* Reset to center as decorative elements are removed */
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hide the img element — CSS background handles it on mobile */
+    .hero-bg-img {
+        display: none;
+    }
+
+    /* Float text in the clear center of the image */
+    .hero-content {
+        grid-area: unset;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 85%;
+        max-width: 500px;
+        margin-bottom: 10%;
+        padding: 10px;
+    }
+
+    .scroll-indicator {
+        grid-area: unset;
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+}
+
+.eyebrow {
+    display: block;
+    font-size: 0.95rem;
+    color: #6a7051;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+
+.names {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    color: #1a2238; /* Deep navy/charcoal */
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+.ampersand {
+    color: #cda434; /* Mustard Gold */
+    font-style: normal;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    padding: 0 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.date-hero,
+.venue-hero {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.date-hero {
+    color: #746051; /* Warm dark brown */
+    margin-bottom: 0.2rem;
+}
+
+.venue-hero {
+    font-weight: 700;
+    margin-top: 0.2rem;
+    color: #3f5f45; /* Deep olive green */
+}
+
+/* Hero Decorative Dividers */
+.hero-divider {
+    width: 100%;
+    max-width: 320px;
+    margin: 1rem auto;
+    opacity: 0.7;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 2s 1s ease-out forwards;
+    opacity: 0;
+    white-space: nowrap;
+}
+
+.scroll-indicator span {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #7a6a56;
+    font-weight: 700;
+}
+
+.rope-icon {
+    width: 80px;
+    height: 26px;
+    opacity: 0.75;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background-color: var(--gold-light);
+    border-radius: 4px;
+    animation: scrollWheel 2s infinite;
+}
+
+/* Shared Titles */
+.section-title {
+    font-size: 3rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 3rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Events Section */
+.events-section {
+    padding: 100px 0;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 40px;
+}
+
+.event-card {
+    transition: var(--transition);
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.event-header {
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-header h3 {
+    font-size: 2.5rem;
+    color: var(--emerald-dark);
+    margin-bottom: 0.5rem;
+}
+
+.event-date {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.event-time {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    line-height: 1;
+}
+
+.detail-text strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 5px;
+}
+
+.map-link {
+    display: inline-block;
+    color: var(--emerald);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--emerald);
+    margin-top: 5px;
+    transition: color 0.3s;
+}
+
+.map-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+}
+
+.attire-row p {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.color-note {
+    font-style: italic;
+    color: #555;
+    margin-top: 8px !important;
+}
+
+/* Gallery Section */
+/* Gallery Section */
+.gallery-section {
+    padding: 100px 0 150px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.wrapper {
+  --card-trans-duration: 1000ms;
+  --card-trans-easing: linear(0, 0.01 0.8%, 0.038 1.6%, 0.154 3.4%, 0.781 9.7%, 1.01 12.5%, 1.089 13.8%, 1.153 15.2%, 1.195 16.6%, 1.219 18%, 1.224 19.7%, 1.208 21.6%, 1.172 23.6%, 1.057 28.6%, 1.007 31.2%, 0.969 34.1%, 0.951 37.1%, 0.953 40.9%, 0.998 50.4%, 1.011 56%, 0.998 74.7%, 1);
+  --card-border-radius: 12px;
+  --card-width: 25vmin; /* slightly bigger frames to show the couples */
+  --radius: 50vmin; 
+  --cards: 5; /* 5 photos */
+  --arc-size: 0.25;          /* essentially the distance between cards */
+  --arc-center: 0.75;        /* top */
+  --arc-start: calc(var(--arc-center) - var(--arc-size) / 2);
+  --arc-shift: 0;
+  --arc-shift-delta: 0.015;
+
+  position: relative;
+  width: var(--card-width);
+  aspect-ratio: 4/5;
+  margin-top: clamp(100px, 25vmin, 250px); /* Push the arc down so it doesn't overlap the heading */
+  background: transparent;
+}
+
+.wrapper > div {
+  --card-i: 1; /* Fallback */
+  --arc-step: calc(var(--arc-size) / (var(--cards) - 1));
+    
+  position: absolute;
+  width: var(--card-width);
+  aspect-ratio: 4/5;
+  background: white;
+  border-radius: var(--card-border-radius);
+  padding: 8px; /* glass polaroid look */
+
+  offset-path: circle(var(--radius) at 50% 100%);
+  offset-distance: calc(
+    (var(--arc-start)
+     + (var(--card-i) - 1) * var(--arc-step)
+     + var(--arc-shift)
+    ) * 100%
+  );
+	
+  offset-rotate: auto;
+  offset-anchor: 50% 0%;
+  transition: all var(--card-trans-duration) var(--card-trans-easing);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Adjust sibling indices manually since CSS nesting is not natively supported without post-processor yet, using standard CSS selectors */
+.wrapper > div:nth-child(1) { --card-i: 1; z-index: 0; }
+.wrapper > div:nth-child(2) { --card-i: 2; z-index: 1; }
+.wrapper > div:nth-child(3) { --card-i: 3; z-index: 3; }
+.wrapper > div:nth-child(4) { --card-i: 4; z-index: 1; }
+.wrapper > div:nth-child(5) { --card-i: 5; z-index: 0; }
+
+.wrapper > div:hover {
+  offset-anchor: 50% 10%;
+  z-index: 10 !important;
+}
+
+.wrapper > div:hover + div { --arc-shift: calc(var(--arc-shift-delta) * 2); }
+.wrapper > div:hover + div + div { --arc-shift: calc(var(--arc-shift-delta) * 1); }
+
+/* Using `:has` for predecessor pushing */
+.wrapper > div:has(+ *:hover) { --arc-shift: calc(var(--arc-shift-delta) * -2); }
+.wrapper > div:has(+ * + *:hover) { --arc-shift: calc(var(--arc-shift-delta) * -1); }
+
+.wrapper > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+} 
+
+.wrapper > div:hover > img,
+.wrapper > div.touched > img {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        --card-width: 35vmin;
+        --radius: 65vmin; 
+    }
+}
+
+/* Travel Section */
+.travel-section {
+    padding: 60px 0 100px;
+}
+
+.travel-card {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.travel-card .section-title {
+    color: var(--navy);
+    text-shadow: none;
+    margin-bottom: 1.5rem;
+}
+
+.travel-intro {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.hotel-info h3 {
+    font-size: 2rem;
+    color: var(--emerald-dark);
+    margin-bottom: 1.5rem;
+}
+
+.booking-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.or {
+    font-style: italic;
+    color: #666;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.primary-btn {
+    background-color: var(--emerald-dark);
+    color: white;
+    border: 2px solid var(--emerald-dark);
+}
+
+.primary-btn:hover {
+    background-color: transparent;
+    color: var(--emerald-dark);
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+}
+
+.secondary-btn:hover {
+    background-color: var(--navy);
+    color: white;
+}
+
+/* Footer / RSVP */
+.rsvp-footer {
+    padding-bottom: 100px;
+}
+
+.footer-content {
+    text-align: center;
+    background: rgba(10, 17, 40, 0.9);
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-content h2 {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.guest-counts {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.contact-card {
+    margin: 2rem 0;
+}
+
+.contact-role {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #aaa;
+}
+
+.contact-name {
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.footer-content .primary-btn {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+}
+
+.footer-content .primary-btn:hover {
+    background-color: transparent;
+    color: var(--gold);
+}
+
+.closing {
+    margin-top: 3rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--gold-light);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 17, 40, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    background: var(--navy);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border: 2px solid white;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.close-modal:hover {
+    background: var(--emerald-dark);
+    transform: scale(1.1);
+}
+
+.map-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #e5e3df; /* Placeholder map background */
+}
+
+/* Animations & Responsive */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scrollWheel {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .names {
+        font-size: 3rem;
+    }
+
+    .ampersand {
+        font-size: 2.5rem;
+    }
+
+    .glass-panel {
+        padding: 2rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+    }
+
+    .booking-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Hero mobile tweaks */
+    .hero-content {
+        padding: 8px;
+        margin-bottom: 12%; /* More shift up on mobile too */
+    }
+
+    .eyebrow {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        margin-bottom: 1rem;
+    }
+
+    .names {
+        font-size: clamp(2rem, 7vw, 3.5rem);
+        margin-bottom: 1rem;
+    }
+
+    .ampersand {
+        font-size: clamp(1.8rem, 6vw, 3rem);
+    }
+
+    .date-hero, .venue-hero {
+        font-size: 0.95rem;
+    }
+
+    .scroll-indicator span {
+        font-size: 0.6rem;
+        letter-spacing: 3px;
+    }
+
+    .rope-icon {
+        width: 55px;
+    }
+}
+
+/* Small phones (max 480px) */
+@media (max-width: 480px) {
+    .hero-content {
+        width: 85%;
+        margin-bottom: 14%;
+    }
+
+    .eyebrow {
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        margin-bottom: 0.75rem;
+    }
+
+    .names {
+        font-size: clamp(1.6rem, 8vw, 2.5rem);
+        line-height: 1.15;
+    }
+
+    .ampersand {
+        font-size: clamp(1.4rem, 7vw, 2.2rem);
+        padding: 0 5px;
+    }
+
+    .date-hero, .venue-hero {
+        font-size: 0.85rem;
+    }
+}
+
+/* Tablet (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-content {
+        margin-bottom: 11%;
+        max-width: 580px;
+    }
+
+    .names {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .ampersand {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+}
