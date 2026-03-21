@@ -49,7 +49,7 @@ MODE B: googleForm
 
 const RSVP_CONFIG = {
   mode: "appsScript", // "appsScript" or "googleForm"
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycbzKVZ8SyYq17zf5FtLS3VuCKcwwt_IHXUKx_2tkFFg8lqtJtJCyQH-JiMbqQuYSTNvh9g/exec",
   fieldMap: {
     fullName: "entry.1111111111",
     email: "entry.2222222222",
@@ -70,10 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!RSVP_CONFIG.endpoint || RSVP_CONFIG.endpoint.includes("PASTE_YOUR_ENDPOINT_HERE")) {
-      alert("Please configure RSVP endpoint in rsvp.js first.");
-      return;
-    }
+  if (!RSVP_CONFIG.endpoint || !RSVP_CONFIG.endpoint.startsWith("https://script.google.com")) {
+    alert("Please configure RSVP endpoint in rsvp.js first.");
+    return;
+  }
 
     const formData = new FormData(form);
     const events = [];
